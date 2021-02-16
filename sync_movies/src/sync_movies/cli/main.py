@@ -1,0 +1,46 @@
+import argparse
+import sys
+import os
+import re
+
+def sync_path(src_folder: str, dest_folder: str):
+    files_list = []
+    path_list = set()
+    for root, _, files in os.walk(src_folder):
+        for name in files:
+            p = re.compile(r'.*(\d{4})\.(?:[\w\-.]+)\.mkv$')
+            m = p.match(name, re.IGNORECASE)
+            if (m):
+                path_list.add(m.group(1))
+                files_list.append({'path': root, 'year': m.group(1), 'name': name})
+
+    #with open(os.path.join(src_folder, 'batch_movies.sh'), 'w') as writer:
+    with open('batch_movies.sh', 'w') as writer:
+        for path_name in sorted(path_list):
+            if not os.path.exists(os.path.join(dest_folder, path_name)):
+                writer.write("mkdir %s \n" % os.path.join(dest_folder, path_name))
+        writer.write("\n")
+
+        for file_info in files_list:
+            if os.path.exists(os.path.join(dest_folder, file_info['name'])):
+                writer.write("# skip %s" % (os.path.join(file_info['path'], file_info['name'])))
+            else:
+                writer.write('echo "Moving %s ..."\n' % (os.path.join(file_info['path'], file_info['name'])))
+                writer.write('mv "%s" "%s"\n' % (os.path.join(file_info['path'], file_info['name']), 
+                    os.path.join(dest_folder, file_info['year'])))
+                #os.system('mv "%s" "%s"\n' % (os.path.join(file_info['path'], file_info['name']), 
+                #    os.path.join(dest_folder, file_info['year'])))
+    
+    os.chmod('batch_movies.sh', 0o755)
+
+def sync_movies_cli():
+    parser = argparse.ArgumentParser(description="Synchronize the movies")
+    parser.add_argument("source", help="specify source folder of movies")
+    parser.add_argument("destination", help="specify destination folder of movies")
+    args = parser.parse_args()
+    if (args.source == None or args.destination == None):
+        parser.print_help()
+        sys.exit(1)
+
+    sync_path(args.source, args.destination)
+    
