@@ -13,7 +13,7 @@ setup(
     packages = find_packages(where='src'),
     package_dir= {'': 'src'},
 
-    install_requires=[],
+    install_requires=['exifread'],
 
     include_package_data=True,
     
@@ -21,7 +21,8 @@ setup(
 
     entry_points={
         'console_scripts': [
-            'sync_movies      = sync_movies.cli.main:sync_movies_cli',
+            'sync-movies      = sync_movies.cli.main:sync_movies_cli',
+            'sync-photos      = sync_photos.cli.main:sync_photos_cli',
         ]
     }
 )
