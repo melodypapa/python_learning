@@ -13,7 +13,7 @@ setup(
     packages = find_packages(where='src'),
     package_dir= {'': 'src'},
 
-    install_requires=['exifread'],
+    install_requires=['exifread', 'PyPDF2'],
 
     include_package_data=True,
     
@@ -23,6 +23,7 @@ setup(
         'console_scripts': [
             'sync-movies      = sync_movies.cli.main:sync_movies_cli',
             'sync-photos      = sync_photos.cli.main:sync_photos_cli',
+            'sync-books       = sync_books.cli.main:sync_books_cli',
         ]
     }
 )
