@@ -13,7 +13,7 @@ setup(
     packages = find_packages(where='src'),
     package_dir= {'': 'src'},
 
-    install_requires=['exifread', 'PyPDF2'],
+    install_requires=['exifread', 'PyPDF2', 'requests', 'bs4', 'lxml', 'isbnlib'],
 
     include_package_data=True,
     

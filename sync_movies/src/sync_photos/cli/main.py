@@ -12,6 +12,7 @@ import exifread
 #    sys.exit(1)
 #    return (str(year), str(month))
 
+batch_file_name = "batch_photos.sh"
 
 def get_file_year_month(folder: str, name: str):
     filename = os.path.join(folder, name)
@@ -39,17 +40,18 @@ def sync_path(src_folder: str, dest_folder: str):
             m = p.match(name)
             if (m):
                 try:
-                    (year, month) = get_file_year_month(root, name)
-                    date_path = os.path.join(year, month)
-                    path_list.add(date_path)
-                    files_list.append({'path': root, 'date_path': date_path, 'format': m.group(1), 'year': year, 'month': month, 'name': name})
+                    print(os.path.join(root, name))
+                    #(year, month) = get_file_year_month(root, name)
+                    #date_path = os.path.join(year, month)
+                    #path_list.add(date_path)
+                    #files_list.append({'path': root, 'date_path': date_path, 'format': m.group(1), 'year': year, 'month': month, 'name': name})
                 except Exception as err:
                     print("%s is skipped due to %s" % (name, err))
                 
 
     # with open(os.path.join(src_folder, 'batch_movies.sh'), 'w') as writer:
-    print("Write to batch_photos.sh")
-    with open('batch_photos.sh', 'w') as writer:
+    print("Write to %s" % batch_file_name)
+    with open(batch_file_name, 'w') as writer:
         for path_name in sorted(path_list):
             if not os.path.exists(os.path.join(dest_folder, path_name)):
                 writer.write('mkdir -p "%s" \n' % os.path.join(dest_folder, path_name))
@@ -67,7 +69,7 @@ def sync_path(src_folder: str, dest_folder: str):
                 # os.system('mv "%s" "%s"\n' % (os.path.join(file_info['path'], file_info['name']),
                 #    os.path.join(dest_folder, file_info['year'])))
 
-    os.chmod('batch_photos.sh', 0o755)
+    os.chmod(batch_file_name, 0o755)
 
 
 def sync_photos_cli():
