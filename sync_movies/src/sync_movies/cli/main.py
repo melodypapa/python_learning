@@ -22,8 +22,8 @@ def sync_path(src_folder: str, dest_folder: str):
         writer.write("\n")
 
         for file_info in files_list:
-            if os.path.exists(os.path.join(dest_folder, file_info['name'])):
-                writer.write("# skip %s" % (os.path.join(file_info['path'], file_info['name'])))
+            if os.path.exists(os.path.join(dest_folder, file_info['year'], file_info['name'])):
+                writer.write("# skip %s\n" % (os.path.join(file_info['path'], file_info['name'])))
             else:
                 writer.write('echo "Moving %s ..."\n' % (os.path.join(file_info['path'], file_info['name'])))
                 writer.write('mv "%s" "%s"\n' % (os.path.join(file_info['path'], file_info['name']), 
