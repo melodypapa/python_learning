@@ -40,11 +40,11 @@ def sync_path(src_folder: str, dest_folder: str):
             m = p.match(name)
             if (m):
                 try:
-                    print(os.path.join(root, name))
-                    #(year, month) = get_file_year_month(root, name)
-                    #date_path = os.path.join(year, month)
-                    #path_list.add(date_path)
-                    #files_list.append({'path': root, 'date_path': date_path, 'format': m.group(1), 'year': year, 'month': month, 'name': name})
+                    #print(os.path.join(root, name))
+                    (year, month) = get_file_year_month(root, name)
+                    date_path = os.path.join(year, month)
+                    path_list.add(date_path)
+                    files_list.append({'path': root, 'date_path': date_path, 'format': m.group(1), 'year': year, 'month': month, 'name': name})
                 except Exception as err:
                     print("%s is skipped due to %s" % (name, err))
                 
